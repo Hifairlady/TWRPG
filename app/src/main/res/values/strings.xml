@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">TWRPG</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="TV_ITEM_NAME_ENG_TEXT">ItemNameEng</string>
+    <string name="TV_ITEM_NAME_CHS_TEXT">ItemNameChs</string>
+    <string name="TV_ITEM_LEVEL_TEXT">ItemLevel</string>
+    <string name="TV_ITEM_QUALITY_TEXT">ItemQuality</string>
 </resources>
