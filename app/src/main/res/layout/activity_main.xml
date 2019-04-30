@@ -1,16 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_root_layout"
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
     <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/main_appbar_layout"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize">
 
         <androidx.appcompat.widget.Toolbar
+            android:id="@+id/main_toolbar"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:elevation="4dp"
@@ -19,10 +23,39 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <FrameLayout
-        android:id="@+id/main_fragment_container"
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/main_tab_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="?attr/actionBarSize"></FrameLayout>
+        android:layout_height="?attr/actionBarSize"
+        app:tabIndicatorHeight="3dp"
+        app:tabMode="fixed"
+        app:tabSelectedTextColor="@color/colorAccent"
+        app:tabTextAppearance="@style/MyTabTextStyle"
+        app:tabTextColor="@color/secondary_text">
 
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+        <com.google.android.material.tabs.TabItem
+            android:id="@+id/ti_items_tab"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/TI_ITEMS_TAB_TEXT" />
+
+        <com.google.android.material.tabs.TabItem
+            android:id="@+id/ti_units_tab"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/TI_UNITS_TAB_TEXT" />
+
+    </com.google.android.material.tabs.TabLayout>
+
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/main_view_pager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <!--<FrameLayout-->
+    <!--android:id="@+id/main_fragment_container"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:layout_marginTop="?attr/actionBarSize" />-->
+
+</LinearLayout>

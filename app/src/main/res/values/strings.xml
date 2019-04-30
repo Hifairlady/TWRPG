@@ -7,4 +7,6 @@
     <string name="TV_ITEM_NAME_CHS_TEXT">ItemNameChs</string>
     <string name="TV_ITEM_LEVEL_TEXT">ItemLevel</string>
     <string name="TV_ITEM_QUALITY_TEXT">ItemQuality</string>
+    <string name="TI_ITEMS_TAB_TEXT">Items</string>
+    <string name="TI_UNITS_TAB_TEXT">Units</string>
 </resources>

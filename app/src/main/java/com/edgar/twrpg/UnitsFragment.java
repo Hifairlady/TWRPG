@@ -8,28 +8,26 @@ import android.view.ViewGroup;
 
 import androidx.fragment.app.Fragment;
 
-
-public class EquipmentsFragment extends Fragment {
+public class UnitsFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String TAB_TITLE = "TAB_TITLE";
+    private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
     // TODO: Rename and change types of parameters
-    private String mTabTitle;
+    private String mParam1;
     private String mParam2;
 
 
-    public EquipmentsFragment() {
+    public UnitsFragment() {
         // Required empty public constructor
     }
 
-
     // TODO: Rename and change types and number of parameters
-    public static EquipmentsFragment newInstance(String param1, String param2) {
-        EquipmentsFragment fragment = new EquipmentsFragment();
+    public static UnitsFragment newInstance(String param1, String param2) {
+        UnitsFragment fragment = new UnitsFragment();
         Bundle args = new Bundle();
-        args.putString(TAB_TITLE, param1);
+        args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
@@ -39,7 +37,7 @@ public class EquipmentsFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mTabTitle = getArguments().getString(TAB_TITLE);
+            mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
@@ -48,10 +46,7 @@ public class EquipmentsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_equipments, container, false);
+        return inflater.inflate(R.layout.fragment_units, container, false);
     }
 
-    private String getTabTitle() {
-        return mTabTitle;
-    }
 }
