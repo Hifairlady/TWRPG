@@ -66,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
         mViewPager = findViewById(R.id.main_view_pager);
         mTabLayout = findViewById(R.id.main_tab_layout);
 
-        EquipmentsFragment equipmentsFragment = EquipmentsFragment.newInstance(null, null);
+        EquipmentsFragment equipmentsFragment = EquipmentsFragment.newInstance();
         UnitsFragment unitsFragment = UnitsFragment.newInstance(null, null);
 
         fragments.add(equipmentsFragment);

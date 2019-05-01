@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class EquipmentsAdapter extends RecyclerView.Adapter {
 
@@ -38,7 +39,7 @@ public class EquipmentsAdapter extends RecyclerView.Adapter {
         viewHolder.tvItemLevel.setText(item.getItemLevel());
         viewHolder.tvNameChs.setText(item.getItemNameChs());
         viewHolder.tvNameEng.setText(item.getItemNameEng());
-        Glide.with(mContext)
+        Glide.with(viewHolder.ivIcon)
                 .load(item.getIconFilePath())
                 .placeholder(R.drawable.loading)
                 .error(R.drawable.default_icon)
@@ -50,7 +51,7 @@ public class EquipmentsAdapter extends RecyclerView.Adapter {
         return (equipmentItems == null ? 0 : equipmentItems.size());
     }
 
-    public void addAllItems(ArrayList<EquipmentItem> items) {
+    public void addAllItems(List<EquipmentItem> items) {
         equipmentItems = new ArrayList<>(items);
         notifyDataSetChanged();
     }
@@ -65,7 +66,6 @@ public class EquipmentsAdapter extends RecyclerView.Adapter {
 
         public NormalViewHolder(@NonNull View itemView) {
             super(itemView);
-
             ivIcon = itemView.findViewById(R.id.iv_item_icon);
             tvNameEng = itemView.findViewById(R.id.tv_item_name_eng);
             tvNameChs = itemView.findViewById(R.id.tv_item_name_chs);

@@ -35,13 +35,13 @@
 
         <com.google.android.material.tabs.TabItem
             android:id="@+id/ti_items_tab"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:text="@string/TI_ITEMS_TAB_TEXT" />
 
         <com.google.android.material.tabs.TabItem
             android:id="@+id/ti_units_tab"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:text="@string/TI_UNITS_TAB_TEXT" />
 

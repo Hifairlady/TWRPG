@@ -14,6 +14,7 @@ public class FileProcUtil {
 
     public static final String SP_DATA_VERSION_STORAGE = "SP_DATA_VERSION_STORAGE";
     public static final String SP_DATA_VERSION_STRING = "SP_DATA_VERSION_STRING";
+    public static String versionStringFromAsset = "version=0.22u";
 
     private static final String ASSET_ROOT_PATH = "file:///android_asset/";
     private static final String ASSET_DATA_PATH = ASSET_ROOT_PATH + "data/";
@@ -22,9 +23,10 @@ public class FileProcUtil {
 
     public static boolean shouldUpdate(Context context) {
 
+        SharedPreferences sharedPreferences = context.getSharedPreferences(SP_DATA_VERSION_STORAGE, Context.MODE_PRIVATE);
+        String versionStringFromStorage = sharedPreferences.getString(SP_DATA_VERSION_STRING, "version=0.22u");
 //        AssetManager assetManager = context.getAssets();
         String versionFileName = "data/version.txt";
-        String versionStringFromAsset = "version=0.22u";
         BufferedReader reader = null;
         try {
             reader = new BufferedReader(new InputStreamReader(context.getAssets().open(versionFileName), StandardCharsets.UTF_8));
@@ -43,9 +45,6 @@ public class FileProcUtil {
                 }
             }
         }
-
-        SharedPreferences sharedPreferences = context.getSharedPreferences(SP_DATA_VERSION_STORAGE, Context.MODE_PRIVATE);
-        String versionStringFromStorage = sharedPreferences.getString(SP_DATA_VERSION_STRING, "version=0.22u");
         return (!versionStringFromAsset.equals(versionStringFromStorage));
     }
 
@@ -124,13 +123,13 @@ public class FileProcUtil {
     private static String getIdString(String lineString) {
         String[] splitStrings = lineString.split("[\\[\\]]");
         String result = "I000";
-        if (splitStrings.length >= 2) {
-            result = splitStrings[0];
+        if (splitStrings.length >= 3) {
+            result = splitStrings[1];
         }
         return result;
     }
 
-    public static ArrayList<EquipmentItem> getEquipmentItems(Context context) {
+    public static EquipmentItem[] getEquipmentItems(Context context) {
         ArrayList<EquipmentItem> equipmentItems = new ArrayList<>();
 
         BufferedReader reader = null;
@@ -148,15 +147,11 @@ public class FileProcUtil {
             String itemQuality = "Default";
             while ((lineString = reader.readLine()) != null) {
 
-                Log.d(TAG, "getEquipmentItems: " + lineString);
-
                 if (lineString.startsWith("[")) {
                     isValidItem = true;
                     itemId = getIdString(lineString);
                     continue;
                 }
-
-                if (!isValidItem) continue;
 
                 if (lineString.startsWith("Art=")) {
                     iconFilePath = getIconFilePath(lineString);
@@ -180,14 +175,15 @@ public class FileProcUtil {
                 }
 
                 if (lineString.startsWith("Ubertip=") && isValidItem) {
-                    if (itemNameChs.contains("徽章")) {
-                        itemQuality = "收藏品";
-                    }
-                    if (itemQuality.equals("Default")) continue;
+//                    if (itemNameChs.contains("徽章")) {
+//                        itemQuality = "收藏品";
+//                    }
+//                    if (itemQuality.equals("Default")) continue;
                     EquipmentItem item = new EquipmentItem(itemId, iconFilePath, itemNameEng, itemNameChs, itemLevel, itemQuality);
-//                    Log.d(TAG, "getEquipmentItems: Item added: " + itemNameChs);
+                    checkoutItem(item);
+                    if (!item.isItemAcceptable()) continue;
+                    Log.d(TAG, "getEquipmentItems: " + itemId);
                     equipmentItems.add(item);
-                    continue;
                 }
 
             }
@@ -202,8 +198,25 @@ public class FileProcUtil {
                 }
             }
         }
+        EquipmentItem[] result = new EquipmentItem[equipmentItems.size()];
+        result = equipmentItems.toArray(result);
+        return result;
+    }
 
-        return equipmentItems;
+    private static void checkoutItem(EquipmentItem item) {
+        String itemNameChs = item.getItemNameChs();
+        //exclude items without class
+        if (item.getItemQuality().equals("Default")) {
+            item.setItemAcceptable(false);
+            return;
+        }
+
+        // TODO: 2019/5/1 try to create a list file to exclude more unacceptable items
+
+        if (itemNameChs.contains("徽章")) {
+            item.setItemQuality("收藏品");
+        }
+
     }
 
 }

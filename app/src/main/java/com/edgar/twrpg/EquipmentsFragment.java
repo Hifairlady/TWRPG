@@ -2,6 +2,7 @@ package com.edgar.twrpg;
 
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -10,49 +11,38 @@ import android.view.ViewGroup;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.snackbar.Snackbar;
+
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class EquipmentsFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String TAB_TITLE = "TAB_TITLE";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mTabTitle;
-    private String mParam2;
 
     private RecyclerView mRecyclerview;
     private EquipmentsAdapter adapter;
     private ArrayList<EquipmentItem> equipmentItems = new ArrayList<>();
 
+    private EquipmentViewModel mViewModel;
 
     public EquipmentsFragment() {
         // Required empty public constructor
     }
 
 
-    // TODO: Rename and change types and number of parameters
-    public static EquipmentsFragment newInstance(String param1, String param2) {
+    public static EquipmentsFragment newInstance() {
         EquipmentsFragment fragment = new EquipmentsFragment();
-        Bundle args = new Bundle();
-        args.putString(TAB_TITLE, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
         return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mTabTitle = getArguments().getString(TAB_TITLE);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
     @Override
@@ -62,7 +52,7 @@ public class EquipmentsFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_equipments, container, false);
         mRecyclerview = rootView.findViewById(R.id.equipments_recyclerview);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
-        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        layoutManager.setOrientation(RecyclerView.VERTICAL);
         mRecyclerview.setLayoutManager(layoutManager);
         adapter = new EquipmentsAdapter(getActivity());
         mRecyclerview.setAdapter(adapter);
@@ -72,14 +62,31 @@ public class EquipmentsFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        new EquipmentAsyncTask(getActivity()).execute();
-
+        mViewModel = ViewModelProviders.of(getActivity()).get(EquipmentViewModel.class);
+        mViewModel.getAllItems().observe(getViewLifecycleOwner(), new Observer<List<EquipmentItem>>() {
+            @Override
+            public void onChanged(List<EquipmentItem> equipmentItems) {
+                adapter.addAllItems(equipmentItems);
+                try {
+                    SharedPreferences sharedPreferences = getActivity().getSharedPreferences(FileProcUtil.SP_DATA_VERSION_STORAGE, Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putString(FileProcUtil.SP_DATA_VERSION_STRING, FileProcUtil.versionStringFromAsset);
+                    editor.apply();
+                } catch (NullPointerException npe) {
+                    npe.printStackTrace();
+                }
+            }
+        });
+        if (mViewModel.getAllItems().getValue() == null || mViewModel.getAllItems().getValue().size() == 0 || FileProcUtil.shouldUpdate(getActivity())) {
+            Snackbar.make(mRecyclerview, "Updating " + FileProcUtil.versionStringFromAsset, Snackbar.LENGTH_SHORT).show();
+            new EquipmentAsyncTask(getActivity()).execute();
+        }
     }
 
     private class EquipmentAsyncTask extends AsyncTask<Void, Void, Void> {
 
         private Context mContext;
-        private ArrayList<EquipmentItem> equipmentItems;
+        private EquipmentItem[] equipmentItems;
 
         public EquipmentAsyncTask(Context mContext) {
             this.mContext = mContext;
@@ -88,13 +95,19 @@ public class EquipmentsFragment extends Fragment {
         @Override
         protected Void doInBackground(Void... voids) {
             equipmentItems = FileProcUtil.getEquipmentItems(mContext);
+//            try {
+//                Thread.sleep(2000);
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            }
             return null;
         }
 
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
-            adapter.addAllItems(equipmentItems);
+            mViewModel.insertEquipmentItems(equipmentItems);
+
         }
     }
 
