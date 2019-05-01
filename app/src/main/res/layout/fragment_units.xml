@@ -6,6 +6,7 @@
     tools:context=".UnitsFragment">
 
     <androidx.recyclerview.widget.RecyclerView
+        android:background="@color/colorPrimary"
         android:id="@+id/units_recyclerview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />

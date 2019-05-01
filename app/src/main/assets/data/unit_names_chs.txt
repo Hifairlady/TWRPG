@@ -1,4 +1,3 @@
-version=0.22u
 [Ecen][$4563656E]
 Art=ReplaceableTextures\CommandButtons\BTNKeeperOfTheGrove.blp
 Attachmentanimprops=large

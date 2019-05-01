@@ -1,7 +1,6 @@
 package com.edgar.twrpg;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.LinearLayout;
@@ -45,19 +44,8 @@ public class MainActivity extends AppCompatActivity {
         switch (item.getItemId()) {
 
             case R.id.main_search_menu_item:
-//                String testString = "Description=|c0040e0d0[药水]|r |n|CFFFFDEAD一种神奇的混合草药和治疗药水制作的|r |n|c00adff2f∴|r|c0080ff0020秒持续时间 生命值恢复 +800|r";
-//                String outString = FileProcUtil.removeColorCodes(testString);
-//                outString = FileProcUtil.removeNewLinesAndQuotes(outString);
-//                String testString = "Art=ReplaceableTextures\\CommandButtons\\BTNGemSapphire.blp";
-//                String outString = FileProcUtil.getIconFilePath(testString);
-//                String testString = "Name=\"|c0052E252Benedict, the Crimson Armor of Blood|r\"";
-//                String outString = FileProcUtil.getItemName(testString);
-                String testString = "Description=|c00FF8200[罕见]|n|c002040f0∴|c00ff8c00攻击力+1200|n|c002040f0∴|c00ff8c00全属性 +90|n|c002040f0∴|c0040e0d0移动速度 +200|n|c00adff2f▣ |c00ffff00等级.120";
-//                String outString = FileProcUtil.getLevelString(testString);
-                String outString = FileProcUtil.getItemQuality(testString);
-                Log.d(TAG, "onOptionsItemSelected: outString: " + outString);
-                FileProcUtil.checkUpdate(this);
-                Snackbar.make(rootLayout, outString, Snackbar.LENGTH_SHORT).show();
+                FileProcUtil.shouldUpdate(this);
+                Snackbar.make(rootLayout, "Test Start", Snackbar.LENGTH_SHORT).show();
                 break;
 
             default:
@@ -88,6 +76,10 @@ public class MainActivity extends AppCompatActivity {
         mViewPager.setAdapter(adapter);
 
         mTabLayout.setupWithViewPager(mViewPager);
+
+    }
+
+    private void initData() {
 
     }
 }

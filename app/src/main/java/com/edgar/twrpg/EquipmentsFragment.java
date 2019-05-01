@@ -1,12 +1,19 @@
 package com.edgar.twrpg;
 
 
+import android.content.Context;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import java.util.ArrayList;
 
 
 public class EquipmentsFragment extends Fragment {
@@ -18,6 +25,10 @@ public class EquipmentsFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mTabTitle;
     private String mParam2;
+
+    private RecyclerView mRecyclerview;
+    private EquipmentsAdapter adapter;
+    private ArrayList<EquipmentItem> equipmentItems = new ArrayList<>();
 
 
     public EquipmentsFragment() {
@@ -48,10 +59,43 @@ public class EquipmentsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_equipments, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_equipments, container, false);
+        mRecyclerview = rootView.findViewById(R.id.equipments_recyclerview);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        mRecyclerview.setLayoutManager(layoutManager);
+        adapter = new EquipmentsAdapter(getActivity());
+        mRecyclerview.setAdapter(adapter);
+        return rootView;
     }
 
-    private String getTabTitle() {
-        return mTabTitle;
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        new EquipmentAsyncTask(getActivity()).execute();
+
     }
+
+    private class EquipmentAsyncTask extends AsyncTask<Void, Void, Void> {
+
+        private Context mContext;
+        private ArrayList<EquipmentItem> equipmentItems;
+
+        public EquipmentAsyncTask(Context mContext) {
+            this.mContext = mContext;
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            equipmentItems = FileProcUtil.getEquipmentItems(mContext);
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            adapter.addAllItems(equipmentItems);
+        }
+    }
+
 }

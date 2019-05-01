@@ -1,4 +1,3 @@
-version=0.22u
 [I000][$49303030]
 Art=ReplaceableTextures\CommandButtons\BTNHealingSalve.blp
 Description=|c0040e0d0[Potion]|r |n|CFFFFDEADPotion made from mixing herbs and medicine|r |n|c00adff2f∴|c0080ff00Restores 300 HP over 20 seconds|r

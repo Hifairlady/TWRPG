@@ -15,6 +15,9 @@
         app:cardCornerRadius="4dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?attr/selectableItemBackground"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -42,6 +45,7 @@
                 android:ellipsize="end"
                 android:maxLines="1"
                 android:text="@string/TV_ITEM_NAME_ENG_TEXT"
+                android:textAppearance="@style/MyEquipItemTextStyle"
                 app:layout_constraintBottom_toTopOf="@+id/tv_item_name_chs"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
@@ -60,6 +64,7 @@
                 android:ellipsize="end"
                 android:maxLines="1"
                 android:text="@string/TV_ITEM_NAME_CHS_TEXT"
+                android:textAppearance="@style/MyEquipItemTextStyle"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/tv_item_quality"
                 app:layout_constraintStart_toEndOf="@+id/iv_item_icon"
@@ -75,6 +80,7 @@
                 android:ellipsize="end"
                 android:maxLines="1"
                 android:text="@string/TV_ITEM_QUALITY_TEXT"
+                android:textAppearance="@style/MyEquipItemTextStyle"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -90,6 +96,7 @@
                 android:ellipsize="end"
                 android:maxLines="1"
                 android:text="@string/TV_ITEM_LEVEL_TEXT"
+                android:textAppearance="@style/MyEquipItemTextStyle"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
