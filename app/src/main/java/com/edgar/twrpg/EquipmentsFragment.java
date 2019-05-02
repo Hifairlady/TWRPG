@@ -95,11 +95,6 @@ public class EquipmentsFragment extends Fragment {
         @Override
         protected Void doInBackground(Void... voids) {
             equipmentItems = FileProcUtil.getEquipmentItems(mContext);
-//            try {
-//                Thread.sleep(2000);
-//            } catch (InterruptedException e) {
-//                e.printStackTrace();
-//            }
             return null;
         }
 

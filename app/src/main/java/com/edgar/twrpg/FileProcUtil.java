@@ -72,10 +72,17 @@ public class FileProcUtil {
         return iconFilePath;
     }
 
-    private static String getItemName(String nameString) {
+    private static String getItemNameChs(String nameString) {
         nameString = removeColorCodes(nameString);
         nameString = removeNewLinesAndQuotes(nameString);
         nameString = nameString.replace("Name=", "");
+        return nameString;
+    }
+
+    private static String getItemNameEng(String nameString) {
+        nameString = removeColorCodes(nameString);
+        nameString = removeNewLinesAndQuotes(nameString);
+        nameString = nameString.replace("EngName=", "");
         return nameString;
     }
 
@@ -134,7 +141,7 @@ public class FileProcUtil {
 
         BufferedReader reader = null;
         try {
-            reader = new BufferedReader(new InputStreamReader(context.getAssets().open("data/item_names_chs.txt"), StandardCharsets.UTF_8));
+            reader = new BufferedReader(new InputStreamReader(context.getAssets().open("data/item_names_out.txt"), StandardCharsets.UTF_8));
             String lineString;
 
             boolean isValidItem = true;
@@ -165,7 +172,12 @@ public class FileProcUtil {
                 }
 
                 if (lineString.startsWith("Name=")) {
-                    itemNameChs = getItemName(lineString);
+                    itemNameChs = getItemNameChs(lineString);
+                    continue;
+                }
+
+                if (lineString.startsWith("EngName=")) {
+                    itemNameEng = getItemNameEng(lineString);
                     continue;
                 }
 
